@@ -36,7 +36,7 @@ def main(unused_argv):
   with block as demo:
     with gr.Row(equal_height = True):
       with gr.Column(scale = 15):
-        gr.Markdown("<h1><center>文献问答系统</center></h1>")
+        gr.Markdown("<h1><center>ChemDFM</center></h1>")
     with gr.Row():
       with gr.Column(scale = 4):
         chatbot = gr.Chatbot(height = 450, show_copy_button = True)
