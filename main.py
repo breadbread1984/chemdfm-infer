@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from os import environ
 from absl import flags, app
 from os.path import exists
 from langchain.llms import HuggingFaceEndpoint
@@ -16,6 +17,7 @@ def add_options():
 
 class Warper(object):
   def __init__(self):
+    environ['HUGGINGFACEHUB_API_TOKEN'] = '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'
     llm = HuggingFaceEndpoint(repo_id = "OpenDFM/ChemDFM-13B-v1.0", token = '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')
     self.chain = PromptTemplate.from_template("{prompt}") | llm | StrOutputParser()
   def query(self, question, history):
