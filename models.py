@@ -30,4 +30,4 @@ class ChemDFM(LLM):
     return response
   @property
   def _llm_type(self):
-    return "Llama-2-7b-chat-hf" 
+    return "ChemDFM-13b" 
