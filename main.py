@@ -2,7 +2,7 @@
 
 from absl import flags, app
 from os.path import exists
-from langchain.llms import HuggingFaceEndPoint
+from langchain.llms import HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import gradio as gr
