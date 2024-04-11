@@ -7,6 +7,7 @@ from langchain.llms import HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import gradio as gr
+from models import ChemDFM
 
 FLAGS = flags.FLAGS
 
@@ -18,7 +19,8 @@ def add_options():
 class Warper(object):
   def __init__(self):
     environ['HUGGINGFACEHUB_API_TOKEN'] = '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'
-    llm = HuggingFaceEndpoint(endpoint_url = "https://api-inference.huggingface.co/models/OpenDFM/ChemDFM-13B-v1.0", token = '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', task = 'text-generation')
+    #llm = HuggingFaceEndpoint(endpoint_url = "https://api-inference.huggingface.co/models/OpenDFM/ChemDFM-13B-v1.0", token = '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', task = 'text-generation')
+    llm = ChemDFM(FLAGS.device)
     self.chain = PromptTemplate.from_template("{prompt}") | llm | StrOutputParser()
   def query(self, question, history):
     try:
