@@ -6,7 +6,6 @@ from langchain.llms import HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import gradio as gr
-from model import ChemDFM
 
 FLAGS = flags.FLAGS
 
