@@ -24,8 +24,8 @@ class Warper(object):
     self.chain = PromptTemplate.from_template("{prompt}") | llm | StrOutputParser()
   def query(self, question, history):
     s = ''
-    for idx, (question, answer) in enumerate(history[-16:]):
-      s += '[Round %d]\nHuman: %s\nAssistant: %s\n' % (idx, question, answer)
+    for idx, (q, a) in enumerate(history[-16:]):
+      s += '[Round %d]\nHuman: %s\nAssistant: %s\n' % (idx, q, a)
     s += '[Round %d]\nHuman: %s\nAssistant:' % (len(history[-16:]), question)
     try:
       answer = self.chain.invoke({"prompt": s})
