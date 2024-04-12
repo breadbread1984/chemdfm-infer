@@ -23,8 +23,12 @@ class Warper(object):
     llm = ChemDFM(FLAGS.device)
     self.chain = PromptTemplate.from_template("{prompt}") | llm | StrOutputParser()
   def query(self, question, history):
+    s = ''
+    for idx, (question, answer) in enumerate(history[-16:]):
+      s += '[Round %d]\nHuman: %s\nAssistant: %s\n' % (idx, question, answer)
+    s += '[Round %d]\nHuman: %s\nAssistant:' % (len(history[-16:]), question)
     try:
-      answer = self.chain.invoke({"prompt": question})
+      answer = self.chain.invoke({"prompt": s})
       history.append((question, answer))
       return "", history
     except Exception as e:
