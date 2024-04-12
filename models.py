@@ -19,11 +19,11 @@ class ChemDFM(LLM):
     self.model.eval()
   def _call(self, prompt, stop = None, run_manager = None, **kwargs):
     logits_processor = LogitsProcessorList()
-    logits_processor.append(TemperatureLogitsWarper(0.9))
-    logits_processor.append(TopPLogitsWarper(0.9))
+    #logits_processor.append(TemperatureLogitsWarper(0.9))
+    #logits_processor.append(TopPLogitsWarper(0.9))
     inputs = self.tokenizer(prompt, return_tensors = 'pt')
     inputs = inputs.to(torch.device(self.model.device))
-    outputs = self.model.generate(**inputs, logits_processor = logits_processor, do_sample = True, use_cache = True, return_dict_in_generate = True)
+    outputs = self.model.generate(**inputs, logits_processor = logits_processor, do_sample = False, use_cache = True, return_dict_in_generate = True, max_new_tokens = 2048)
     input_ids = outputs.sequences
     outputs = self.tokenizer.batch_decode(input_ids, skip_special_tokens = True)
     response = outputs[0][len(prompt):]
