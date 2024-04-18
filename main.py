@@ -15,6 +15,7 @@ def add_options():
   flags.DEFINE_enum('device', default = 'cuda', enum_values = {'cpu', 'cuda'}, help = 'device to use')
   flags.DEFINE_string('host', default = '0.0.0.0', help = 'host address')
   flags.DEFINE_integer('port', default = 8880, help = 'port number')
+  flags.DEFINE_boolean('use_history', default = False, help = 'whether to use history')
 
 class Warper(object):
   def __init__(self):
@@ -24,9 +25,12 @@ class Warper(object):
     self.chain = PromptTemplate.from_template("{prompt}") | llm | StrOutputParser()
   def query(self, question, history):
     s = ''
-    for idx, (q, a) in enumerate(history[-16:]):
-      s += '[Round %d]\nHuman: %s\nAssistant: %s\n' % (idx, q, a)
-    s += '[Round %d]\nHuman: %s\nAssistant:' % (len(history[-16:]), question)
+    if FLAGS.use_history:
+      for idx, (q, a) in enumerate(history[-16:]):
+        s += '[Round %d]\nHuman: %s\nAssistant: %s\n' % (idx, q, a)
+      s += '[Round %d]\nHuman: %s\nAssistant: ' % (len(history[-16:]), question)
+    else:
+      s += '[Round 0]\nHuman: %s\nAssistant: ' % question
     try:
       answer = self.chain.invoke({"prompt": s})
       history.append((question, answer))
